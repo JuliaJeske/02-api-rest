@@ -1,9 +1,12 @@
 import fastify from 'fastify'
+import { Knex } from './database'
 
 const app = fastify()
 
-app.get('/hello', () => {
-  return 'hello word'
+app.get('/hello', async () => {
+  // tabela universal automatica
+  const tables = await Knex('sqlite_schema').select('*')
+  return tables
 })
 
 app
