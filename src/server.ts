@@ -1,12 +1,17 @@
 import fastify from 'fastify'
 import { Knex } from './database'
+import crypto from 'node:crypto'
+import knex from 'knex'
+
 
 const app = fastify()
 
 app.get('/hello', async () => {
-  // tabela universal automatica
-  const tables = await Knex('sqlite_schema').select('*')
-  return tables
+  const transaction = await knex('transactions')
+    .where('amount', 1000)
+    .select('*')
+
+  return transaction
 })
 
 app
